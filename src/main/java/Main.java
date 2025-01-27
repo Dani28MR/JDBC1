@@ -1,5 +1,6 @@
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) throws UnsupportedEncodingException {
@@ -7,6 +8,8 @@ public class Main {
         System.out.println("Iniciando aplicación...");
 
         DBUtils.getConnection();
+
+        DBDDL.crearTablaTarea();
 
     }
 }

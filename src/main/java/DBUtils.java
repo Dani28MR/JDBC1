@@ -63,11 +63,12 @@ public class DBUtils {
             // Crear la conexión a la base de datos
             String fullUrl = dbUrl + dbName; // Combinar URL y nombre de la base de datos
             connection = DriverManager.getConnection(fullUrl, dbUser, dbPassword);
-            System.out.println("Conexión exitosa a la base de datos.");
+            //System.out.println("Conexión exitosa a la base de datos.");
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error al conectar con la base de datos.");
         }
+
 
         return connection;
     }

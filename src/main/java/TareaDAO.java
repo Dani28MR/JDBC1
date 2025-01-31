@@ -21,6 +21,7 @@ public class TareaDAO {
 
             preparedStatement.executeUpdate();
             System.out.println("Tarea añadida correctamente.");
+            obtenerTareas();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,7 +48,7 @@ public class TareaDAO {
                 );
                 tareas.add(tarea);
             }
-            System.out.println(tareas);
+
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error al obtener las tareas.");
@@ -77,6 +78,7 @@ public class TareaDAO {
             } else {
                 System.out.println("No se encontró la tarea con ID: " + id);
             }
+            obtenerTareas();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,10 +101,57 @@ public class TareaDAO {
             } else {
                 System.out.println("No se encontró la tarea con ID: " + id);
             }
+            obtenerTareas();
 
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error al eliminar la tarea.");
         }
+    }
+
+
+    public static Tarea getTareaById(int id) {
+        String sql = "SELECT * FROM tarea WHERE id =?;";
+        Tarea tarea = null;
+
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                tarea = new Tarea(
+                        resultSet.getString("nombre"),
+                        resultSet.getString("description"),
+                        resultSet.getBoolean("completada"),
+                        resultSet.getDate("fechaTarea").toLocalDate(),
+                        resultSet.getInt("nivelImportancia")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error al obtener la tarea con ID: " + id);
+        }
+        obtenerTareas();
+
+        return tarea;
+    }
+
+    public static String buscarTareaPorNombre(String nombre) {
+        List<Tarea> tareaList = obtenerTareas();
+        List<String> listaNombres = new ArrayList<String>();
+        Tarea tareaBuscada = null;
+        for (Tarea tarea : tareaList) {
+            listaNombres.add(tarea.getNombre());
+        }
+        for (int i = 0; i < listaNombres.size(); i++){
+            if (listaNombres.get(i).equalsIgnoreCase(nombre)){
+                tareaBuscada = tareaList.get(i);
+            }
+        }
+        return tareaBuscada.toString();
     }
 }

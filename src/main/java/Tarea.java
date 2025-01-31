@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 
 public class Tarea {
+    private int id;
     private String nombre;
     private String description;
     private boolean completada;
@@ -13,6 +14,14 @@ public class Tarea {
         this.completada = completada;
         this.fechaTarea = fechaTarea;
         this.nivelImportancia = nivelImportancia;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -57,13 +66,14 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return "Tarea{" +
-                "nombre='" + nombre + '\'' +
-                ", description='" + description + '\'' +
-                ", completada=" + completada +
-                ", fechaTarea=" + fechaTarea +
-                ", nivelImportancia=" + nivelImportancia +
-                '}';
+        return "Tarea:" + '\n' +
+                "ID -> " + id + '\n' +
+                "Nombre -> " + nombre + '\n' +
+                "Descripcion -> " + description + '\n' +
+                "Completada -> " + completada+ '\n' +
+                "Fecha de la tarea -> " + fechaTarea + '\n'+
+                "Nivel de importancia -> " + nivelImportancia+ '\n' +
+                '\n';
     }
 
 

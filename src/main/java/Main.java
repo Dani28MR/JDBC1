@@ -11,5 +11,9 @@ public class Main {
 
         DBDDL.crearTablaTarea();
 
+        //TareaDAO.addTarea(new Tarea("","",true,LocalDate.now(),10));
+        TareaDAO.eliminarTarea(2);
+        TareaDAO.obtenerTareas();
+
     }
 }

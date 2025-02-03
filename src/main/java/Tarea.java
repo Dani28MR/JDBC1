@@ -67,7 +67,7 @@ public class Tarea {
     @Override
     public String toString() {
         return "Tarea:" + '\n' +
-                "ID -> " + id + '\n' +
+                "ID -> " + this.getId() + '\n' +
                 "Nombre -> " + nombre + '\n' +
                 "Descripcion -> " + description + '\n' +
                 "Completada -> " + completada+ '\n' +

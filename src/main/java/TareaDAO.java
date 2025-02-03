@@ -2,6 +2,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TareaDAO {
 
@@ -24,7 +25,6 @@ public class TareaDAO {
             obtenerTareas();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Error al añadir la tarea.");
         }
     }
@@ -47,10 +47,11 @@ public class TareaDAO {
                         resultSet.getInt("nivelImportancia")
                 );
                 tareas.add(tarea);
+                tarea.setId(resultSet.getInt("id"));
+
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Error al obtener las tareas.");
         }
 
@@ -81,7 +82,6 @@ public class TareaDAO {
             obtenerTareas();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Error al actualizar la tarea.");
         }
     }
@@ -104,7 +104,6 @@ public class TareaDAO {
             obtenerTareas();
 
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Error al eliminar la tarea.");
         }
     }
@@ -132,7 +131,6 @@ public class TareaDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Error al obtener la tarea con ID: " + id);
         }
         obtenerTareas();
@@ -140,18 +138,36 @@ public class TareaDAO {
         return tarea;
     }
 
-    public static String buscarTareaPorNombre(String nombre) {
+    public static List<Tarea> buscarTareaPorNombre(String nombre) {
         List<Tarea> tareaList = obtenerTareas();
-        List<String> listaNombres = new ArrayList<String>();
-        Tarea tareaBuscada = null;
-        for (Tarea tarea : tareaList) {
-            listaNombres.add(tarea.getNombre());
-        }
-        for (int i = 0; i < listaNombres.size(); i++){
-            if (listaNombres.get(i).equalsIgnoreCase(nombre)){
-                tareaBuscada = tareaList.get(i);
-            }
-        }
-        return tareaBuscada.toString();
+
+        return tareaList.stream()
+               .filter(tarea -> tarea.getNombre().equalsIgnoreCase(nombre))
+               .collect(Collectors.toList());
+    }
+
+    public static List<Tarea> getTareasImprescindibles() {
+        List<Tarea> tareaList = obtenerTareas();
+        return tareaList.stream()
+               .filter(tarea -> tarea.getNivelImportancia() == 10 )
+               .collect(Collectors.toList());
+    }
+
+    public static List<Tarea> getTareasPendientes() {
+        List<Tarea> tareaList = obtenerTareas();
+        return tareaList.stream()
+                .filter(tarea ->!tarea.isCompletada())
+                .collect(Collectors.toList());
+    }
+
+    public static List<Tarea> getTareasExpiradas() {
+        LocalDate fechaExpiracion = LocalDate.now();
+        List<Tarea> tareaList = obtenerTareas();
+        tareaList.removeIf(
+                tarea -> tarea
+                        .getFechaTarea()
+                        .isAfter(fechaExpiracion) || tarea.isCompletada()
+        );
+        return tareaList;
     }
 }

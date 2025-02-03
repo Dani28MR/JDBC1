@@ -1,15 +1,13 @@
-import java.io.File;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        System.setOut(new PrintStream(System.out,true,"UTF-8"));
+    public static void main(String[] args) {
+        System.setOut(new PrintStream(System.out,true));
         System.out.println("Iniciando aplicación...");
         DBUtils.getConnection();
-        //TareaDAO.addTarea(new Tarea("skaubda","aaaaaaa",true,LocalDate.now(),10));
+        //TareaDAO.addTarea(new Tarea("perro","perro",true,LocalDate.now(),10));
         TareaDAO.obtenerTareas();
         DBDDL.crearTablaTarea();
         System.out.println("""
@@ -49,14 +47,16 @@ public class Main {
                     String description = new Scanner(System.in).nextLine();
                     System.out.println("¿Está completada la tarea? (true/false):");
                     boolean completada = new Scanner(System.in).nextBoolean();
-                    System.out.println("Introduce la fecha de la tarea (yyyy-MM-dd):");
+                    System.out.println("Introduce la fecha de expiracion de la tarea (yyyy-MM-dd):");
                     LocalDate fechaTarea = LocalDate.parse(new Scanner(System.in).nextLine());
                     System.out.println("Introduce el nivel de importancia (1-10):");
                     int nivelImportancia = new Scanner(System.in).nextInt();
 
                     Tarea tarea = new Tarea(nombre,description,completada,fechaTarea,nivelImportancia);
                     TareaDAO.addTarea(tarea);
+
                 }
+
                 case 3 -> {
                     System.out.println("Introduce el id de la tarea a editar:");
                     int id = new Scanner(System.in).nextInt();
@@ -66,7 +66,7 @@ public class Main {
                             | ¿Que desea editar?            |
                             |-------------------------------|
                             | 1. Nombre                     |
-                            | 2. Descripción                |
+                            | 2. Descripcion                |
                             | 3. Estado                     |
                             | 4. Fecha de tarea             |
                             | 5. Nivel de importancia       |
@@ -96,25 +96,65 @@ public class Main {
                             System.out.println("Introduce el nuevo nivel de importancia (1-10):");
                             tarea.setNivelImportancia(new Scanner(System.in).nextInt());
                         }
-                        case 6 -> System.out.println("");
+                        case 6 -> System.out.println(" ");
                         default -> System.out.println("Opción no válida.");
                     }
                     TareaDAO.actualizarTarea(id,tarea);
-
-
-
                 }
+
                 case 4 -> {
                     System.out.println("Introduce el id de la tarea a eliminar:");
                     int id = new Scanner(System.in).nextInt();
                     TareaDAO.eliminarTarea(id);
                 }
+
                 case 5 -> {
                     System.out.println("Introduce el nombre de la tarea a buscar:");
                     String nombre = new Scanner(System.in).nextLine();
-                    TareaDAO.buscarTareaPorNombre(nombre);
+                    if (!TareaDAO.obtenerTareas().isEmpty()) {
+                        for (Tarea tarea : TareaDAO.buscarTareaPorNombre(nombre)) {
+                            System.out.println(tarea.toString());
+                        }
+                    }else{
+                        System.out.println("No se ha encontrado niguna tarea con ese nombre");
+                    }
                 }
-                case 9 -> continuar=false;
+
+                case 6 -> {
+                    if (!TareaDAO.getTareasImprescindibles().isEmpty()) {
+                        for (Tarea tarea : TareaDAO.getTareasImprescindibles()){
+                            System.out.println(tarea.toString());
+                        }
+                    }else{
+                        System.out.println("No hay tareas imprescindibles");
+                    }
+                }
+
+                case 7 -> {
+                    if (!TareaDAO.getTareasPendientes().isEmpty()) {
+                        for (Tarea tarea : TareaDAO.getTareasPendientes()){
+                            System.out.println(tarea.toString());
+                        }
+                    }else{
+                        System.out.println("No hay tareas pendientes");
+                    }
+                }
+
+                case 8 -> {
+                    if (!TareaDAO.getTareasExpiradas().isEmpty()) {
+                        for (Tarea tarea : TareaDAO.getTareasExpiradas()){
+                            System.out.println(tarea.toString());
+                        }
+                    }else{
+                        System.out.println("No hay tareas expiradas");
+                    }
+                }
+
+                case 9 -> {
+                    System.out.println("Gracias por utilizar nuestro gestor de tareas. Hasta pronto!");
+                    continuar=false;
+                }
+
                 default -> System.out.println("Opción no válida.");
 
         }

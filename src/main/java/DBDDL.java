@@ -21,7 +21,6 @@ public class DBDDL {
             System.out.println("Tabla 'tarea' creada correctamente.");
 
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Error al crear la tabla 'tarea'.");
         }
     }

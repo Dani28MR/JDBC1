@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -9,16 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DBUtils {
-    private static final String DB_URL = "";
-    private static final String DB = "";
-    private static final String DB_USER = "";
-    private static final String DB_PASSWORD = "";
-
-    private static Map<String,String> leerArchivo(String archivo){
-        Map<String,String> resultado = new HashMap<String,String>();
+    private static final String dbUrl = leerArchivo().get("DB_URL");
+    private static final String dbName = leerArchivo().get("DB");
+    private static final String dbUser = leerArchivo().get("DB_USER");
+    private static final String dbPassword = leerArchivo().get("DB_PASSWORD");
+    private static Map<String,String> leerArchivo(){
+        Map<String,String> resultado = new HashMap<>();
         //Lectura del archivo
 
-        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(".env"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 // Ignorar líneas vacías
@@ -35,7 +33,7 @@ public class DBUtils {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
 
@@ -43,33 +41,19 @@ public class DBUtils {
     }
 
     public static Connection getConnection() {
-        // Leer las configuraciones del archivo .env
-        Map<String, String> config = leerArchivo(".env");
-
-        // Obtener los valores necesarios
-        String dbUrl = config.get("DB_URL");
-        String dbName = config.get("DB");
-        String dbUser = config.get("DB_USER");
-        String dbPassword = config.get("DB_PASSWORD");
-
         // Verificar que todos los valores requeridos estén presentes
         if (dbUrl == null || dbName == null || dbUser == null || dbPassword == null) {
             throw new IllegalArgumentException("Faltan configuraciones en el archivo .env");
         }
-
         Connection connection = null;
-
         try {
             // Crear la conexión a la base de datos
             String fullUrl = dbUrl + dbName; // Combinar URL y nombre de la base de datos
             connection = DriverManager.getConnection(fullUrl, dbUser, dbPassword);
             //System.out.println("Conexión exitosa a la base de datos.");
         } catch (SQLException e) {
-            e.printStackTrace();
             System.out.println("Error al conectar con la base de datos.");
         }
-
-
         return connection;
     }
 

@@ -12,6 +12,11 @@ public class DBUtils {
     private static final String dbName = leerArchivo().get("DB");
     private static final String dbUser = leerArchivo().get("DB_USER");
     private static final String dbPassword = leerArchivo().get("DB_PASSWORD");
+    private static final String SUPABASE= leerArchivo().get("SUPABASE");
+    private static final String SUPABASE_USER = leerArchivo().get("SUPABASE_USER");
+    private static final String SUPABASE_PASSWORD = leerArchivo().get("SUPABASE_PASSWORD");
+    private static final String SUPABASE_DB = leerArchivo().get("SUPABASE_DB");
+
     private static Map<String,String> leerArchivo(){
         Map<String,String> resultado = new HashMap<>();
         //Lectura del archivo
@@ -41,20 +46,34 @@ public class DBUtils {
     }
 
     public static Connection getConnection() {
-        // Verificar que todos los valores requeridos estén presentes
-        if (dbUrl == null || dbName == null || dbUser == null || dbPassword == null) {
-            throw new IllegalArgumentException("Faltan configuraciones en el archivo .env");
-        }
         Connection connection = null;
-        try {
-            // Crear la conexión a la base de datos
-            String fullUrl = dbUrl + dbName; // Combinar URL y nombre de la base de datos
-            connection = DriverManager.getConnection(fullUrl, dbUser, dbPassword);
-            //System.out.println("Conexión exitosa a la base de datos.");
-        } catch (SQLException e) {
-            System.out.println("Error al conectar con la base de datos.");
+
+        if (SUPABASE != null) {
+            try {
+                // Crear la conexión a la base de datos
+                // connection = DriverManager.getConnection(SUPABASE, SUPABASE_USER, SUPABASE_PASSWORD);
+                connection = DriverManager.getConnection(SUPABASE, "postgres", "usuario");
+                //System.out.println("Conexión exitosa a la base de datos.");
+            } catch (SQLException e) {
+                System.out.println("Error al conectar con la base de datos.");
+            }
+        }else{
+            // Verificar que todos los valores requeridos estén presentes
+            if (dbUrl == null || dbName == null || dbUser == null || dbPassword == null) {
+                throw new IllegalArgumentException("Faltan configuraciones en el archivo .env");
+            }
+            try {
+                // Crear la conexión a la base de datos
+                String fullUrl = dbUrl + dbName; // Combinar URL y nombre de la base de datos
+                connection = DriverManager.getConnection(fullUrl, dbUser, dbPassword);
+                //System.out.println("Conexión exitosa a la base de datos.");
+            } catch (SQLException e) {
+                System.out.println("Error al conectar con la base de datos.");
+            }
         }
         return connection;
     }
 
 }
+
+

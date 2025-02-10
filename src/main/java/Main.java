@@ -11,13 +11,13 @@ public class Main {
         DBDDL.crearTablaTarea();
         System.out.print("""
                             |----------------------------------|
-                            | Bienvenido a tu gestor de tareas |
+                            |            BIENVENIDO            |
                             """);
         boolean continuar = true;
         while (continuar) {
             System.out.println("""
-                    |----------------------------------|
-                    | ¿Qué quieres hacer?              |
+                    |---------GESTOR DE TAREAS---------|
+                    |       ¿Qué quieres hacer?        |
                     |----------------------------------|
                     | 1. Ver tus tareas                |
                     | 2. Añadir una tarea              |

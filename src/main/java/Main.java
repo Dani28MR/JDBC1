@@ -7,13 +7,11 @@ public class Main {
         System.setOut(new PrintStream(System.out,true));
         System.out.println("Iniciando aplicación...");
         DBUtils.getConnection();
-        //TareaDAO.addTarea(new Tarea("perro","perro",true,LocalDate.now(),10));
         CRUD.obtenerTareas();
         DBDDL.crearTablaTarea();
-        System.out.println("""
+        System.out.print("""
                             |----------------------------------|
                             | Bienvenido a tu gestor de tareas |
-                            |----------------------------------|
                             """);
         boolean continuar = true;
         while (continuar) {
@@ -161,10 +159,7 @@ public class Main {
 
                 default -> System.out.println("Opción no válida.");
 
+            }
         }
-    }
-
-
-
     }
 }

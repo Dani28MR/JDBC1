@@ -155,6 +155,7 @@ public class Main {
                 case 9 -> {
                     System.out.println("Gracias por utilizar nuestro gestor de tareas. Hasta pronto!");
                     continuar=false;
+                    DBUtils.closeConnection();
                 }
 
                 default -> System.out.println("Opción no válida.");

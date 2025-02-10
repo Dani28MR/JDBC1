@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DBUtils {
+    private static Connection connection = null;
     private static final String dbUrl = leerArchivo().get("DB_URL");
     private static final String dbName = leerArchivo().get("DB");
     private static final String dbUser = leerArchivo().get("DB_USER");
@@ -43,7 +44,6 @@ public class DBUtils {
     }
 
     public static Connection getConnection() {
-        Connection connection = null;
 
         if (SUPABASE != null) {
             try {
@@ -70,6 +70,16 @@ public class DBUtils {
         return connection;
     }
 
+    public static void closeConnection() {
+        try {
+            if (connection!= null &&!connection.isClosed()) {
+                connection.close();
+                System.out.println("Conexión cerrada exitosamente");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al cerrar la conexión.");
+        }
+    }
 }
 
 

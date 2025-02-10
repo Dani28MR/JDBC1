@@ -13,9 +13,6 @@ public class DBUtils {
     private static final String dbUser = leerArchivo().get("DB_USER");
     private static final String dbPassword = leerArchivo().get("DB_PASSWORD");
     private static final String SUPABASE= leerArchivo().get("SUPABASE");
-    private static final String SUPABASE_USER = leerArchivo().get("SUPABASE_USER");
-    private static final String SUPABASE_PASSWORD = leerArchivo().get("SUPABASE_PASSWORD");
-    private static final String SUPABASE_DB = leerArchivo().get("SUPABASE_DB");
 
     private static Map<String,String> leerArchivo(){
         Map<String,String> resultado = new HashMap<>();
@@ -51,8 +48,7 @@ public class DBUtils {
         if (SUPABASE != null) {
             try {
                 // Crear la conexión a la base de datos
-                // connection = DriverManager.getConnection(SUPABASE, SUPABASE_USER, SUPABASE_PASSWORD);
-                connection = DriverManager.getConnection(SUPABASE, "postgres", "usuario");
+                connection = DriverManager.getConnection(SUPABASE);
                 //System.out.println("Conexión exitosa a la base de datos.");
             } catch (SQLException e) {
                 System.out.println("Error al conectar con la base de datos.");

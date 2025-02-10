@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TareaDAO {
+public class CRUD {
 
     // Método para añadir una tarea a la tabla
     public static void addTarea(Tarea tarea) {

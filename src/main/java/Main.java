@@ -8,7 +8,7 @@ public class Main {
         System.out.println("Iniciando aplicación...");
         DBUtils.getConnection();
         //TareaDAO.addTarea(new Tarea("perro","perro",true,LocalDate.now(),10));
-        TareaDAO.obtenerTareas();
+        CRUD.obtenerTareas();
         DBDDL.crearTablaTarea();
         System.out.println("""
                             |----------------------------------|
@@ -35,10 +35,10 @@ public class Main {
             int opcion = new Scanner(System.in).nextInt();
             switch(opcion){
                 case 1 -> {
-                    if (TareaDAO.obtenerTareas().isEmpty()){
+                    if (CRUD.obtenerTareas().isEmpty()){
                         System.out.println("No hay tareas para mostrar.");
                     }else {
-                        for (Tarea tarea : TareaDAO.obtenerTareas()){
+                        for (Tarea tarea : CRUD.obtenerTareas()){
                             System.out.println(tarea.toString());
                         }
                     }
@@ -57,14 +57,14 @@ public class Main {
                     int nivelImportancia = new Scanner(System.in).nextInt();
 
                     Tarea tarea = new Tarea(nombre,description,completada,fechaTarea,nivelImportancia);
-                    TareaDAO.addTarea(tarea);
+                    CRUD.addTarea(tarea);
 
                 }
 
                 case 3 -> {
                     System.out.println("Introduce el id de la tarea a editar:");
                     int id = new Scanner(System.in).nextInt();
-                    Tarea tarea = TareaDAO.getTareaById(id);
+                    Tarea tarea = CRUD.getTareaById(id);
                     System.out.println("""
                             |-------------------------------|
                             | ¿Que desea editar?            |
@@ -103,20 +103,20 @@ public class Main {
                         case 6 -> System.out.println(" ");
                         default -> System.out.println("Opción no válida.");
                     }
-                    TareaDAO.actualizarTarea(id,tarea);
+                    CRUD.actualizarTarea(id,tarea);
                 }
 
                 case 4 -> {
                     System.out.println("Introduce el id de la tarea a eliminar:");
                     int id = new Scanner(System.in).nextInt();
-                    TareaDAO.eliminarTarea(id);
+                    CRUD.eliminarTarea(id);
                 }
 
                 case 5 -> {
                     System.out.println("Introduce el nombre de la tarea a buscar:");
                     String nombre = new Scanner(System.in).nextLine();
-                    if (!TareaDAO.obtenerTareas().isEmpty()) {
-                        for (Tarea tarea : TareaDAO.buscarTareaPorNombre(nombre)) {
+                    if (!CRUD.obtenerTareas().isEmpty()) {
+                        for (Tarea tarea : CRUD.buscarTareaPorNombre(nombre)) {
                             System.out.println(tarea.toString());
                         }
                     }else{
@@ -125,8 +125,8 @@ public class Main {
                 }
 
                 case 6 -> {
-                    if (!TareaDAO.getTareasImprescindibles().isEmpty()) {
-                        for (Tarea tarea : TareaDAO.getTareasImprescindibles()){
+                    if (!CRUD.getTareasImprescindibles().isEmpty()) {
+                        for (Tarea tarea : CRUD.getTareasImprescindibles()){
                             System.out.println(tarea.toString());
                         }
                     }else{
@@ -135,8 +135,8 @@ public class Main {
                 }
 
                 case 7 -> {
-                    if (!TareaDAO.getTareasPendientes().isEmpty()) {
-                        for (Tarea tarea : TareaDAO.getTareasPendientes()){
+                    if (!CRUD.getTareasPendientes().isEmpty()) {
+                        for (Tarea tarea : CRUD.getTareasPendientes()){
                             System.out.println(tarea.toString());
                         }
                     }else{
@@ -145,8 +145,8 @@ public class Main {
                 }
 
                 case 8 -> {
-                    if (!TareaDAO.getTareasExpiradas().isEmpty()) {
-                        for (Tarea tarea : TareaDAO.getTareasExpiradas()){
+                    if (!CRUD.getTareasExpiradas().isEmpty()) {
+                        for (Tarea tarea : CRUD.getTareasExpiradas()){
                             System.out.println(tarea.toString());
                         }
                     }else{

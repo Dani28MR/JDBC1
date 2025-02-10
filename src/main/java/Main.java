@@ -35,8 +35,12 @@ public class Main {
             int opcion = new Scanner(System.in).nextInt();
             switch(opcion){
                 case 1 -> {
-                    for (Tarea tarea : TareaDAO.obtenerTareas()){
-                        System.out.println(tarea.toString());
+                    if (TareaDAO.obtenerTareas().isEmpty()){
+                        System.out.println("No hay tareas para mostrar.");
+                    }else {
+                        for (Tarea tarea : TareaDAO.obtenerTareas()){
+                            System.out.println(tarea.toString());
+                        }
                     }
                 }
 
